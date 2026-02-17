@@ -160,8 +160,10 @@ body {
 }
 
 .badge-svg-file {
-  width: 100%;
+  width: 105%;
   height: auto;
+  max-height: 6em;
+  /* height: auto; */
   display: block;
 }
 
@@ -968,7 +970,7 @@ duotone-item {
    ========================================================================== */
 @media (max-width: 768px) {
   .footer-logo img {
-    height: 1.5em; /* Adjust based on your SVG proportions */
+    height: 1.3em; /* Adjust based on your SVG proportions */
     width: auto;
   }
   .footer-top {
@@ -988,7 +990,7 @@ duotone-item {
 
   .footer-logos-row {
     grid-template-columns: repeat(2, 1fr); /* 2x2 grid on mobile */
-    gap: 1.5rem;
+    gap: 2.5em;
   }
 }
 
@@ -1250,7 +1252,7 @@ duotone-item {
     font-size: 2.2rem !important; /* Forces the size across all sections */
     line-height: 1.2;
     text-align: left; /* Ensures they all align to the left on mobile */
-    margin-bottom: 1.5rem;
+    /* margin-bottom: 1.5rem; */
   }
 
   /* 1. HERO SECTION REFINEMENTS */
