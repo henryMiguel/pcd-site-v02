@@ -21,8 +21,8 @@ let idleTimer;
 let spawnInterval;
 let isFirstSpawn = true;
 
-const IDLE_WAIT = 8000;       // Wait 8s of silence
-const FAST_SPAWN_GAP = 900;   // Then spawn every 100ms
+const IDLE_WAIT = 6000;       // Wait 6s of silence
+const FAST_SPAWN_GAP = 4000;   // Then spawn every 4s
 
 function clearAllImages() {
   const images = document.querySelectorAll('.spawned-image');
@@ -315,6 +315,14 @@ function performBlinkTransition() {
       practiceContainer.dataset.wrapped = "true";
     }
 
+    const teamText = document.querySelectorAll(".member-name, .member-affiliation, .member-role");
+    teamText.forEach((el) => {
+    if (!el.dataset.wrapped) {
+      const words = el.innerText.split(" ");
+      el.innerHTML = words.map((word) => `<span>${word}</span>`).join(" ");
+      el.dataset.wrapped = "true";
+    } });
+
     // MOBILE TEXTURE GENERATOR
     if (window.innerWidth <= 768 && !hero.dataset.multiplied) {
       const layer = document.querySelector(".words-layer");
@@ -356,7 +364,7 @@ function performBlinkTransition() {
   function positionLinks() {
     const isDesktop = window.innerWidth > 768;
     const radX = isDesktop ? 420 : 150;
-    const radY = isDesktop ? 220 : 250;
+    const radY = isDesktop ? 200 : 250;
 
     if (isDesktop && editionLinks.length > 0) {
       editionLinks.forEach((link, i) => {
@@ -385,21 +393,30 @@ function performBlinkTransition() {
   window.addEventListener("scroll", () => {
     const scrollY = window.scrollY;
 
-    // A. Practice Section: Redaction logic (Triggered while moving)
-    if (practiceContainer) {
-      practiceContainer.classList.add("is-scrolling");
-      window.clearTimeout(scrollTimeout);
-      scrollTimeout = setTimeout(() => {
-        practiceContainer.classList.remove("is-scrolling");
-      }, 150);
-    }
+    const redactSections = document.querySelectorAll(".plural-practices, .team-section");
+    redactSections.forEach((s) => s.classList.add("is-scrolling"));
 
+    window.clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(() => {
+      // Remove from both
+      redactSections.forEach((s) => s.classList.remove("is-scrolling"));
+    }, 150);
+
+    // A. Practice Section: Redaction logic (Triggered while moving)
+    // if (practiceContainer) {
+    //   practiceContainer.classList.add("is-scrolling");
+    //   window.clearTimeout(scrollTimeout);
+    //   scrollTimeout = setTimeout(() => {
+    //     practiceContainer.classList.remove("is-scrolling");
+    //   }, 150);
+    // }
+  
     // MENU STICKY/  HERO PC
     menuData.forEach((data) => {
       if (scrollY > data.initialY - 16) {
         data.el.style.position = "fixed";
         data.el.style.top = "16px";
-        
+
         if (data.isCentered) {
           data.el.style.left = "50%";
           data.el.style.transform = "translateX(-50%)";
@@ -411,7 +428,7 @@ function performBlinkTransition() {
         // Return to original Hero position
         data.el.style.position = "absolute";
         data.el.style.top = data.topPct + "%";
-        
+
         if (data.isCentered) {
           data.el.style.left = "50%";
           data.el.style.transform = "translateX(-50%)";
@@ -456,19 +473,19 @@ function performBlinkTransition() {
         // if (progress < 0.33) updateBlackout("quotes");
         // else if (progress < 0.66) updateBlackout("about");
         // else updateBlackout("change");
-        if (progress < 0.25) {
-          updateBlackout("quotes");
-        } else if (progress < 0.5) {
+        if (progress < 0.33) {
+          updateBlackout("theme");
+        } else if (progress < 0.66) {
           updateBlackout("about");
         } else if (progress < 0.75) {
           updateBlackout("change"); // New state
-        } else {
-          updateBlackout("intro");
+        // } else {
+        //   updateBlackout("intro");
         }
       } else if (rect.top > 0) {
         // Hide progress if we are above the section
         if (progressBar) progressBar.style.height = "0%";
-        updateBlackout("quotes");
+        updateBlackout("theme");
       }
     }
   });

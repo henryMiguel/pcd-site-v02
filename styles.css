@@ -52,16 +52,16 @@ body {
 
 @keyframes eyeBlinkClose {
   0%, 100% { 
-    transform: scaleY(1); /* Fully open */
+    transform: scaleY(1); opacity: 1; /* Fully open */
   }
   45% { 
-    transform: scaleY(1); /* Stay open for most of the loop */
+    transform: scaleY(1); opacity: 1; /* Stay open for most of the loop */
   }
   50% { 
-    transform: scaleY(0.01); /* Snap shut to a thin line */
+    transform: scaleY(0.01); opacity: 0;/* Snap shut to a thin line */
   }
   55% { 
-    transform: scaleY(1); /* Snap back open */
+    transform: scaleY(1); opacity: 1; /* Snap back open */
   }
 }
 
@@ -886,6 +886,9 @@ duotone-item {
 
 .editions-title {
   position: absolute;
+  width: 300px; 
+  margin: 0;
+
   z-index: 10;
   color: #0033ff;
   font-family: "editorial";
@@ -893,7 +896,7 @@ duotone-item {
   line-height: 1.1;
   font-weight: 300;
   text-align: center;
-  top: 45%;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
@@ -903,6 +906,7 @@ duotone-item {
 @media (min-width: 769px) {
   .editions-title {
     /* Set a width that forces the wrap */
+    width: 300px;
     max-width: 8ch; 
     margin: 0 auto;
     line-height: 1.1;
@@ -912,9 +916,23 @@ duotone-item {
     
     /* Keep your existing centering logic */
     position: absolute;
-    top: 45%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+  }
+
+  .editions-eye-cluster {
+  position: absolute;
+  inset: 0; /* Fills the container */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: eyeBlinkClose 5s ease-in-out infinite;
+  transform-origin: center;
+  }
+
+  .editions-eye-cluster:hover {
+  animation-play-state: paused;
   }
 }
 
@@ -1639,4 +1657,29 @@ transform: translateY(0);
 .theme-content-block.active {
   display: block; 
   opacity: 1;
+}
+
+/* test for team section redaction */
+/* Team Section Redaction */
+/* .team-section.is-scrolling .member-name,
+.team-section.is-scrolling .member-affiliation,
+.team-section.is-scrolling .member-role {
+  background-color: var(--blue) !important;
+  color: transparent !important;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  display: inline; 
+  transition: none;
+} */
+
+.team-section.is-scrolling .member-name span,
+.team-section.is-scrolling .member-affiliation span,
+.team-section.is-scrolling .member-role span {
+  background-color: var(--blue) !important;
+  color: transparent !important;
+  padding: 2px 4px;
+  margin: 0 -4px; 
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  transition: none;
 }
