@@ -48,8 +48,26 @@ function resetActivity() {
 
 function createImage() {
   const img = document.createElement("img");
-  img.src = "images/OLHO.png";
+  const MAX_STAMPS = 50;
+
+  const stampImages = [
+    "images/reflect.svg",
+    "images/reform.svg",
+    "images/resist.svg",
+  ];
+
+  // img.src = "images/OLHO.png";
+  const randomIndex = Math.floor(Math.random() * stampImages.length);
+  img.src = stampImages[randomIndex];
   img.className = "spawned-image";
+
+  // 1. Check if we reached the limit
+  const currentStamps = document.querySelectorAll(".spawned-image");
+  if (currentStamps.length >= MAX_STAMPS) {
+   const oldest = currentStamps[0];
+   oldest.style.opacity = "0";
+   setTimeout(() => oldest.remove(), 500);
+  }
 
   // Randomize Size
   const randomSize = Math.floor(Math.random() * (200 - 50 + 1)) + 50;
@@ -363,7 +381,7 @@ function performBlinkTransition() {
 
   function positionLinks() {
     const isDesktop = window.innerWidth > 768;
-    const radX = isDesktop ? 420 : 150;
+    const radX = isDesktop ? 330 : 150;
     const radY = isDesktop ? 200 : 250;
 
     if (isDesktop && editionLinks.length > 0) {
@@ -395,11 +413,13 @@ function performBlinkTransition() {
 
     const redactSections = document.querySelectorAll(".plural-practices, .team-section");
     redactSections.forEach((s) => s.classList.add("is-scrolling"));
+    document.body.classList.add("is-scrolling");
 
     window.clearTimeout(scrollTimeout);
     scrollTimeout = setTimeout(() => {
       // Remove from both
       redactSections.forEach((s) => s.classList.remove("is-scrolling"));
+      document.body.classList.remove("is-scrolling");
     }, 150);
 
     // A. Practice Section: Redaction logic (Triggered while moving)
