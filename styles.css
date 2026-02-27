@@ -1708,7 +1708,7 @@ body.blinking .eye-lid.bottom {
   margin: 0 -4px;
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
-  transition: width 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+  transition: none;
 }
 
 body.is-scrolling p,
@@ -1718,18 +1718,25 @@ body.is-scrolling li {
   &:not(
     .hero *,
     .quote-section *,
-    h2,
-    .menu-item *,
-    #menu-circle *,
     #plural-practices *,
-    #team *,
-    #footer *
+    #team *
   ) {
     background-color: var(--blue) !important;
     color: transparent !important;
     -webkit-box-decoration-break: clone;
     box-decoration-break: clone;
-    transition: width 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+    transition: none !important;
+    animation-play-state: paused !important;
     pointer-events: none;
   }
+}
+
+body.is-scrolling #footer {
+  filter: blur(5px);
+}
+
+body.is-scrolling h2 span {
+  background-color: var(--blue) !important;
+  color: transparent !important;
+  transition: none; /* Instant on */
 }

@@ -7,195 +7,193 @@
   const practiceContainer = document.querySelector(".plural-practices");
   const quoteSec = document.querySelector(".quote-section");
   const progressBar = document.getElementById("quote-progress-bar");
-  
-  
+
   // Theme section
-const blocks = document.querySelectorAll(".theme-content-block");
-const themeEllipse = document.querySelectorAll(".theme-word");
-let currentIndex = 0;
-let isBlinking = false;
+  const blocks = document.querySelectorAll(".theme-content-block");
+  const themeEllipse = document.querySelectorAll(".theme-word");
+  let currentIndex = 0;
+  let isBlinking = false;
 
-// --- EYE SPAWNER LOGIC ---
+  // --- EYE SPAWNER LOGIC ---
 
-let idleTimer;
-let spawnInterval;
-let isFirstSpawn = true;
+  let idleTimer;
+  let spawnInterval;
+  let isFirstSpawn = true;
 
-const IDLE_WAIT = 6000;       // Wait 6s of silence
-const FAST_SPAWN_GAP = 4000;   // Then spawn every 4s
+  const IDLE_WAIT = 6000; // Wait 6s of silence
+  const FAST_SPAWN_GAP = 4000; // Then spawn every 4s
 
-function clearAllImages() {
-  const images = document.querySelectorAll('.spawned-image');
-  images.forEach(img => {
-    img.style.opacity = '0';
-    img.style.transform = 'scale(0.8) translateY(20px)';
-    setTimeout(() => img.remove(), 500);
-  });
-}
-
-function resetActivity() {
-  // 1. Clear everything
-  clearTimeout(idleTimer);
-  clearInterval(spawnInterval);
-  clearAllImages();
-  
-  // 2. Reset the acceleration flag
-  isFirstSpawn = true; 
-
-  // 3. Set the timer for the very first eye
-  idleTimer = setTimeout(createImage, IDLE_WAIT);
-}
-
-function createImage() {
-  const img = document.createElement("img");
-  const MAX_STAMPS = 50;
-
-  const stampImages = [
-    "images/reflect.svg",
-    "images/reform.svg",
-    "images/resist.svg",
-  ];
-
-  // img.src = "images/OLHO.png";
-  const randomIndex = Math.floor(Math.random() * stampImages.length);
-  img.src = stampImages[randomIndex];
-  img.className = "spawned-image";
-
-  // 1. Check if we reached the limit
-  const currentStamps = document.querySelectorAll(".spawned-image");
-  if (currentStamps.length >= MAX_STAMPS) {
-   const oldest = currentStamps[0];
-   oldest.style.opacity = "0";
-   setTimeout(() => oldest.remove(), 500);
+  function clearAllImages() {
+    const images = document.querySelectorAll(".spawned-image");
+    images.forEach((img) => {
+      img.style.opacity = "0";
+      img.style.transform = "scale(0.8) translateY(20px)";
+      setTimeout(() => img.remove(), 500);
+    });
   }
 
-  // Randomize Size
-  const randomSize = Math.floor(Math.random() * (200 - 50 + 1)) + 50;
-  img.style.width = `${randomSize}px`;
-  img.style.height = "auto";
-
-  // Randomize Blink Speed (ScaleY animation in CSS)
-  const blinkDuration = (Math.random() * (5 - 2) + 2).toFixed(2);
-  img.style.animationDuration = `0.5s, ${blinkDuration}s`;
-
-  // Randomize Position
-  const maxX = window.innerWidth - randomSize;
-  const maxY = window.innerHeight - randomSize;
-  img.style.left = `${Math.random() * maxX}px`;
-  img.style.top = `${Math.random() * maxY}px`;
-
-  document.body.appendChild(img);
-
-  // --- THE ACCELERATION FIX ---
-  if (isFirstSpawn) {
-    isFirstSpawn = false;
-    // Immediately stop the single-shot timer and start the rapid-fire interval
+  function resetActivity() {
+    // 1. Clear everything
+    clearTimeout(idleTimer);
     clearInterval(spawnInterval);
-    spawnInterval = setInterval(createImage, FAST_SPAWN_GAP);
+    clearAllImages();
+
+    // 2. Reset the acceleration flag
+    isFirstSpawn = true;
+
+    // 3. Set the timer for the very first eye
+    idleTimer = setTimeout(createImage, IDLE_WAIT);
   }
-}
 
-// Event Listeners
-window.addEventListener('mousemove', resetActivity);
-window.addEventListener('scroll', resetActivity);
-window.addEventListener('keydown', resetActivity);
-window.addEventListener('click', resetActivity);
+  function createImage() {
+    const img = document.createElement("img");
+    const MAX_STAMPS = 50;
 
-// Start the initial idle countdown
-resetActivity();
+    const stampImages = [
+      "images/reflect.svg",
+      "images/reform.svg",
+      "images/resist.svg",
+    ];
 
-// //EYE SPAWNER LOGIC Script
+    // img.src = "images/OLHO.png";
+    const randomIndex = Math.floor(Math.random() * stampImages.length);
+    img.src = stampImages[randomIndex];
+    img.className = "spawned-image";
 
-// let idleTimer;
-// let spawnInterval;
-// let isFirstSpawn = true;
+    // 1. Check if we reached the limit
+    const currentStamps = document.querySelectorAll(".spawned-image");
+    if (currentStamps.length >= MAX_STAMPS) {
+      const oldest = currentStamps[0];
+      oldest.style.opacity = "0";
+      setTimeout(() => oldest.remove(), 500);
+    }
 
+    // Randomize Size
+    const randomSize = Math.floor(Math.random() * (200 - 50 + 1)) + 50;
+    img.style.width = `${randomSize}px`;
+    img.style.height = "auto";
 
-// const IDLE_WAIT = 6000; 
-// const SPAWN_GAP = 10000;
-// const FAST_SPAWN_GAP = 100;
+    // Randomize Blink Speed (ScaleY animation in CSS)
+    const blinkDuration = (Math.random() * (5 - 2) + 2).toFixed(2);
+    img.style.animationDuration = `0.5s, ${blinkDuration}s`;
 
-// function resetActivity() {
-//   clearTimeout(idleTimer);
-//   clearInterval(spawnInterval);
+    // Randomize Position
+    const maxX = window.innerWidth - randomSize;
+    const maxY = window.innerHeight - randomSize;
+    img.style.left = `${Math.random() * maxX}px`;
+    img.style.top = `${Math.random() * maxY}px`;
 
-//   clearAllImages();
-//   isFirstSpawn = true; // Reset the flag when the user moves/scrolls
+    document.body.appendChild(img);
 
-//   // Start the countdown to the first single eye
-//   idleTimer = setTimeout(createImage, IDLE_WAIT);
-// }
+    // --- THE ACCELERATION FIX ---
+    if (isFirstSpawn) {
+      isFirstSpawn = false;
+      // Immediately stop the single-shot timer and start the rapid-fire interval
+      clearInterval(spawnInterval);
+      spawnInterval = setInterval(createImage, FAST_SPAWN_GAP);
+    }
+  }
 
-// function clearAllImages() {
-//     const images = document.querySelectorAll('.spawned-image');
-//     images.forEach(img => {
-//         img.style.opacity = '0';
-//         img.style.transform = 'scale(0.8) translateY(20px)';
-//         setTimeout(() => img.remove(), 500);
-//     });
-// }
-// function resetActivity() {
-//     clearTimeout(idleTimer);
-//     clearInterval(spawnInterval);
-    
-//     clearAllImages();
-    
-//     idleTimer = setTimeout(startSpawning, IDLE_WAIT);
-// }
+  // Event Listeners
+  window.addEventListener("mousemove", resetActivity);
+  window.addEventListener("scroll", resetActivity);
+  window.addEventListener("keydown", resetActivity);
+  window.addEventListener("click", resetActivity);
 
-// function startSpawning() {
- 
-//     createImage();
-    
-//     clearInterval(spawnInterval);
-//     spawnInterval = setInterval(createImage, SPAWN_GAP);
-// }
+  // Start the initial idle countdown
+  resetActivity();
 
-// function createImage() {
-//   const img = document.createElement("img");
+  // //EYE SPAWNER LOGIC Script
 
-//   const randomSize = Math.floor(Math.random() * (200 - 50 + 1)) + 50;
-//   img.style.width = `${randomSize}px`;
-//   img.style.height = "auto"; // Maintains aspect ratio
+  // let idleTimer;
+  // let spawnInterval;
+  // let isFirstSpawn = true;
 
-//   const randomId = Math.floor(Math.random() * 1000);
-//   img.src = "images/OLHO.png";
-//   img.className = "spawned-image";
+  // const IDLE_WAIT = 6000;
+  // const SPAWN_GAP = 10000;
+  // const FAST_SPAWN_GAP = 100;
 
-//   const blinkDuration = (Math.random() * (5 - 2) + 2).toFixed(2);
-//   img.style.animationDuration = `0.5s, ${blinkDuration}s`;
+  // function resetActivity() {
+  //   clearTimeout(idleTimer);
+  //   clearInterval(spawnInterval);
 
-//   const maxX = window.innerWidth - randomSize;
-//   const maxY = window.innerHeight - randomSize;
+  //   clearAllImages();
+  //   isFirstSpawn = true; // Reset the flag when the user moves/scrolls
 
-//   img.style.left = `${Math.random() * maxX}px`;
-//   img.style.top = `${Math.random() * maxY}px`;
+  //   // Start the countdown to the first single eye
+  //   idleTimer = setTimeout(createImage, IDLE_WAIT);
+  // }
 
-//   document.body.appendChild(img);
+  // function clearAllImages() {
+  //     const images = document.querySelectorAll('.spawned-image');
+  //     images.forEach(img => {
+  //         img.style.opacity = '0';
+  //         img.style.transform = 'scale(0.8) translateY(20px)';
+  //         setTimeout(() => img.remove(), 500);
+  //     });
+  // }
+  // function resetActivity() {
+  //     clearTimeout(idleTimer);
+  //     clearInterval(spawnInterval);
 
-//   // --- ACCELERATION LOGIC ---
-//   // If this was the first eye, immediately kick off the fast interval
-//   if (isFirstSpawn) {
-//     isFirstSpawn = false;
-//     clearInterval(spawnInterval);
-//     spawnInterval = setInterval(createImage, FAST_SPAWN_GAP);
-//   }
-// }
+  //     clearAllImages();
 
-// window.addEventListener('mousemove', resetActivity);
-// window.addEventListener('scroll', resetActivity);
-// window.addEventListener('keydown', resetActivity);
-// window.addEventListener('click', resetActivity);
+  //     idleTimer = setTimeout(startSpawning, IDLE_WAIT);
+  // }
 
-// resetActivity();
+  // function startSpawning() {
 
-// PISCAR THEME
+  //     createImage();
 
-function performBlinkTransition() {
-  // EXIT if mobile or already animating
-  if (window.innerWidth <= 768 || isBlinking) return;
+  //     clearInterval(spawnInterval);
+  //     spawnInterval = setInterval(createImage, SPAWN_GAP);
+  // }
 
-  isBlinking = true;
+  // function createImage() {
+  //   const img = document.createElement("img");
+
+  //   const randomSize = Math.floor(Math.random() * (200 - 50 + 1)) + 50;
+  //   img.style.width = `${randomSize}px`;
+  //   img.style.height = "auto"; // Maintains aspect ratio
+
+  //   const randomId = Math.floor(Math.random() * 1000);
+  //   img.src = "images/OLHO.png";
+  //   img.className = "spawned-image";
+
+  //   const blinkDuration = (Math.random() * (5 - 2) + 2).toFixed(2);
+  //   img.style.animationDuration = `0.5s, ${blinkDuration}s`;
+
+  //   const maxX = window.innerWidth - randomSize;
+  //   const maxY = window.innerHeight - randomSize;
+
+  //   img.style.left = `${Math.random() * maxX}px`;
+  //   img.style.top = `${Math.random() * maxY}px`;
+
+  //   document.body.appendChild(img);
+
+  //   // --- ACCELERATION LOGIC ---
+  //   // If this was the first eye, immediately kick off the fast interval
+  //   if (isFirstSpawn) {
+  //     isFirstSpawn = false;
+  //     clearInterval(spawnInterval);
+  //     spawnInterval = setInterval(createImage, FAST_SPAWN_GAP);
+  //   }
+  // }
+
+  // window.addEventListener('mousemove', resetActivity);
+  // window.addEventListener('scroll', resetActivity);
+  // window.addEventListener('keydown', resetActivity);
+  // window.addEventListener('click', resetActivity);
+
+  // resetActivity();
+
+  // PISCAR THEME
+
+  function performBlinkTransition() {
+    // EXIT if mobile or already animating
+    if (window.innerWidth <= 768 || isBlinking) return;
+
+    isBlinking = true;
 
     // 1. Close Lids
     document.body.classList.add("blinking");
@@ -211,9 +209,9 @@ function performBlinkTransition() {
 
       // Show next
       blocks[currentIndex].style.display = "block";
-        themeEllipse.forEach(el => {
-    el.innerHTML = newText;
-  });
+      themeEllipse.forEach((el) => {
+        el.innerHTML = newText;
+      });
 
       // Force a reflow so the browser notices the display change
       void blocks[currentIndex].offsetWidth;
@@ -230,14 +228,14 @@ function performBlinkTransition() {
       }, 600);
     }, 800);
 
-  // Texto elipses tema
-  if (currentIndex === 0) {
-    newText = "resist";
-  } else if (currentIndex === 1) {
-    newText = "reform";
-  } else {
-    newText = "reflect";
-  }
+    // Texto elipses tema
+    if (currentIndex === 0) {
+      newText = "resist";
+    } else if (currentIndex === 1) {
+      newText = "reform";
+    } else {
+      newText = "reflect";
+    }
   }
 
   // function cycleThemeText() {
@@ -333,13 +331,27 @@ function performBlinkTransition() {
       practiceContainer.dataset.wrapped = "true";
     }
 
-    const teamText = document.querySelectorAll(".member-name, .member-affiliation, .member-role");
+    // Team section word wrapping for scroll effect
+    const teamText = document.querySelectorAll(
+      ".member-name, .member-affiliation, .member-role",
+    );
     teamText.forEach((el) => {
-    if (!el.dataset.wrapped) {
-      const words = el.innerText.split(" ");
-      el.innerHTML = words.map((word) => `<span>${word}</span>`).join(" ");
-      el.dataset.wrapped = "true";
-    } });
+      if (!el.dataset.wrapped) {
+        const words = el.innerText.split(" ");
+        el.innerHTML = words.map((word) => `<span>${word}</span>`).join(" ");
+        el.dataset.wrapped = "true";
+      }
+    });
+
+    const h2Titles = document.querySelectorAll("h2");
+    h2Titles.forEach((el) => {
+      if (!el.dataset.wrapped) {
+        const words = el.innerText.split(" ");
+        // Wrap each word in a span for the block effect
+        el.innerHTML = words.map((word) => `<span>${word}</span>`).join(" ");
+        el.dataset.wrapped = "true";
+      }
+    });
 
     // MOBILE TEXTURE GENERATOR
     if (window.innerWidth <= 768 && !hero.dataset.multiplied) {
@@ -381,8 +393,8 @@ function performBlinkTransition() {
 
   function positionLinks() {
     const isDesktop = window.innerWidth > 768;
-    const radX = isDesktop ? 330 : 150;
-    const radY = isDesktop ? 200 : 250;
+    const radX = isDesktop ? 300 : 150;
+    const radY = isDesktop ? 180 : 250;
 
     if (isDesktop && editionLinks.length > 0) {
       editionLinks.forEach((link, i) => {
@@ -405,13 +417,14 @@ function performBlinkTransition() {
       });
     }
   }
- 
 
   /** 4. MASTER SCROLL EVENT **/
   window.addEventListener("scroll", () => {
     const scrollY = window.scrollY;
 
-    const redactSections = document.querySelectorAll(".plural-practices, .team-section");
+    const redactSections = document.querySelectorAll(
+      ".plural-practices, .team-section",
+    );
     redactSections.forEach((s) => s.classList.add("is-scrolling"));
     document.body.classList.add("is-scrolling");
 
@@ -420,7 +433,7 @@ function performBlinkTransition() {
       // Remove from both
       redactSections.forEach((s) => s.classList.remove("is-scrolling"));
       document.body.classList.remove("is-scrolling");
-    }, 150);
+    }, 85);
 
     // A. Practice Section: Redaction logic (Triggered while moving)
     // if (practiceContainer) {
@@ -430,7 +443,7 @@ function performBlinkTransition() {
     //     practiceContainer.classList.remove("is-scrolling");
     //   }, 150);
     // }
-  
+
     // MENU STICKY/  HERO PC
     menuData.forEach((data) => {
       if (scrollY > data.initialY - 16) {
@@ -499,8 +512,8 @@ function performBlinkTransition() {
           updateBlackout("about");
         } else if (progress < 0.75) {
           updateBlackout("change"); // New state
-        // } else {
-        //   updateBlackout("intro");
+          // } else {
+          //   updateBlackout("intro");
         }
       } else if (rect.top > 0) {
         // Hide progress if we are above the section
